@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {createRoot} from 'react-dom/client'
 import './App.css'
-import InputForm from './components/input.jsx'
+import ContactInfo from './components/input.jsx'
 
 function App() {
 
@@ -39,12 +39,7 @@ function App() {
       <div className="cv-results">
           {showResult && (
             <>
-            <div className="cv-header">
-              <h1>{formData.firstName} {formData.lastName}</h1>
-              <div className="contact-row">
-                {formData.email} {formData.phone}
-              </div>
-            </div>
+            <ContactInfo firstName={formData.firstName} lastName={formData.lastName} email={formData.email} phone={formData.phone} />
             <div className="edit-bar">
               <button type="button" onClick={handleEditButton}>Edit</button>
             </div>
