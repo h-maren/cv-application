@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {createRoot} from 'react-dom/client'
 import './App.css'
-import ContactInfo from './components/input.jsx'
+import ContactInfo from './components/ContactInfo.jsx'
 
 function App() {
 
