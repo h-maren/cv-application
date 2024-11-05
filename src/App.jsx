@@ -1,19 +1,23 @@
 import { useState } from 'react'
+import {createRoot} from 'react-dom/client'
 import './App.css'
-import InfoForm from './components/info.jsx'
+import InputForm from './components/input.jsx'
 
 function App() {
 
-  const [formData, setFormData]= useState({
+  const [formData,setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: '',
+    email: 'youremail@email.com',
     phone: '',
-  });
+  })
+
+  const [showResult, setShowResult] = useState(false);
 
   
   const handleSubmit = (e) => {
       e.preventDefault();
+      setShowResult(true);
   }
 
   const handleInputChange = (e) =>{
@@ -22,34 +26,61 @@ function App() {
     }));
   };
 
+  const handleEditButton = (e) => {
+      e.preventDefault();
+      setShowResult(false);
+  }
+
   return (
     <>
       <header>
         <h1>Generate Your Own CV!</h1>
       </header>
       <div className="cv-results">
-        <div className="cv-header">
-          <h1>{formData.firstName} {formData.lastName}</h1>
-        </div>
+          {showResult && (
+            <>
+            <div className="cv-header">
+              <h1>{formData.firstName} {formData.lastName}</h1>
+              <div className="contact-row">
+                {formData.email} {formData.phone}
+              </div>
+            </div>
+            <div className="edit-bar">
+              <button type="button" onClick={handleEditButton}>Edit</button>
+            </div>
+            </>
+          )}
       </div>
       <div className="input-bar">
-        <form onSubmit={handleSubmit} className="infoForm">
+            {!showResult && (
+            <form onSubmit={handleSubmit}>
               <div className="input-row">
-              <label htmlFor="firstName">
-                  First Name:
-              </label>
-              <input type="text" name="firstName" id="firstName" value={formData.firstName} onChange={handleInputChange}
-              required />
+                <label htmlFor="firstName">
+                    First Name:
+                </label>
+                <input type="text" name="firstName" id="firstName" value = {formData.firstName} onChange={handleInputChange} required/>
               </div>
               <div className="input-row">
-              <label htmlFor="lastName">
-                  Last Name:
-              </label>
-              <input type="text" name="lastName" id="lastName" value={formData.lastName} onChange={handleInputChange}
-              required />
+                <label htmlFor="lastName">
+                    Last Name:
+                </label>
+                <input type="text" name="lastName" id="lastName" value = {formData.lastName} onChange={handleInputChange} required />
               </div>
-              <button type="submit">Submit</button>
-        </form>
+              <div className="input-row">
+                <label htmlFor="email">
+                    Email:
+                </label>
+                <input type="email" name="email" id="email" value = {formData.email} onChange={handleInputChange} required />
+              </div>
+              <div className="input-row">
+                <label htmlFor="phone">
+                    Phone Number:
+                </label>
+                <input type="tel" name="phone" id="phone" value = {formData.phone} onChange={handleInputChange} required />
+              </div>
+              <button type="submit">Generate Resume</button>
+            </form>
+            )}
       </div>
     </>
   )
