@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useID } from 'react'
 import {createRoot} from 'react-dom/client'
 import './App.css'
 import ContactInfo from './components/ContactInfo.jsx'
+import WorkExperience from './components/WorkExperience.jsx'
 
 function App() {
 
@@ -14,17 +15,14 @@ function App() {
 
   const [workData,setWorkData] = useState({
     company: '',
-    startDate: new Date(),
-    endDate: new Date(),
+    startDate: new Date().toISOString().slice(0, 10),
+    endDate: new Date().toISOString().slice(0, 10),
     position: '',
     description: '',
   })
 
   const [workExperiences,setWorkExperiences] = useState([]);
-
   const [showResult, setShowResult] = useState(false);
-
-  let nextId=0;
   
   const handleSubmit = (e) => {
       e.preventDefault();
@@ -43,6 +41,8 @@ function App() {
     }));
   };
 
+  const workInputForm=document.querySelector('.work-input-form');
+  
   const addWorkExperience = (e) => {
     setWorkExperiences([...workExperiences, 
       {
@@ -50,14 +50,27 @@ function App() {
       startDate: workData.startDate,
       endDate: workData.endDate,
       position: workData.position,
-      description: workData.description
+      description: workData.description,
+      id: crypto.randomUUID()
     }])
-  }
+    //reset form
+    setWorkData({
+      company: '',
+      startDate: new Date().toISOString().slice(0, 10),
+      endDate: new Date().toISOString().slice(0, 10),
+      position: '',
+      description: '',
+    })
+ }
+
+             
 
   const handleEditButton = (e) => {
       e.preventDefault();
       setShowResult(false);
   }
+
+
 
   return (
     <>
@@ -68,11 +81,9 @@ function App() {
           {showResult && (
             <>
             <ContactInfo firstName={formData.firstName} lastName={formData.lastName} email={formData.email} phone={formData.phone} />
-            <ul>
               {workExperiences.map(experience => (
-                <li key={experience.startDate}>{experience.company} {experience.position}</li>
-              )) }
-            </ul>
+                <WorkExperience company={experience.company} startDate={experience.startDate} endDate={experience.endDate} position={experience.position} description={experience.description} />
+              )) }            
             <div className="edit-bar">
               <button type="button" onClick={handleEditButton}>Edit</button>
             </div>
@@ -114,7 +125,7 @@ function App() {
             {!showResult && (
               <>
             <h3>Add Work Experience</h3>
-            <form>
+            <form className="work-input-form">
               <div className="input-row">
               <label htmlFor="workCompany">
                 Company:
@@ -135,7 +146,7 @@ function App() {
                 <label htmlFor="workStartDate">
                   End Date:
                 </label>
-                <input type="date" name="endDate" id="endDate" value = {workData.endDate} onChange={handleWorkChange} required />
+                <input type="date" name="endDate" id="endDate" value = {workData.endDate} onChange={handleWorkChange} required/>
               </div>
               <div className="input-row">
               <label htmlFor="workDescription">
@@ -145,11 +156,15 @@ function App() {
               </div>
                 <button type="button" onClick={addWorkExperience}>Add Work Experience</button>
             </form>
-            <ul>
+            <div className="work-results">
               {workExperiences.map(experience => (
-                <li key={experience.startDate}>{experience.company} {experience.position}</li>
+                <div className="editable-experience" key={experience.id}>
+                    <WorkExperience company={experience.company} startDate={experience.startDate} endDate={experience.endDate} position={experience.position} description={experience.description} />
+                    <button type="button" onClick={() => 
+                      {setWorkExperiences(workExperiences.filter(exp => exp.id !== experience.id))}}>Delete</button>
+                </div>
               )) }
-            </ul>
+            </div>
             </>
             )}
       </section>
