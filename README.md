@@ -1,6 +1,12 @@
-# React + Vite
+# CV Application Using React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Use React and state hooks to generate resume with contact info, work experience, and education history.
+Need to add styling
+Could use form validation
+
+
+
+Used React in Vite template: This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
 
