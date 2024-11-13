@@ -1,0 +1,23 @@
+.work-experience-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 800px;
+    margin-top: 20px;
+}
+
+.work-company {
+    font-size: 30px;
+    font-style: bold;
+}
+
+.work-experience-subheader {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.work-description {
+    font-size: 15px;
+    margin: 0px;
+}

@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import '../styles/EducationHistory.css'
 
 export default function EducationHistory({school,degree,studyArea,startDate,endDate,id}){
     return (

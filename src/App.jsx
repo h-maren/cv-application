@@ -1,6 +1,6 @@
 import { useState, useID } from 'react'
 import {createRoot} from 'react-dom/client'
-import './App.css'
+import './index.css'
 import ContactInfo from './components/ContactInfo.jsx'
 import WorkExperience from './components/WorkExperience.jsx'
 import EducationHistory from './components/EducationHistory.jsx'
@@ -61,6 +61,7 @@ function App() {
   };
   
   const addWorkExperience = (e) => {
+    e.preventDefault();
     setWorkExperiences([...workExperiences, 
       {
       company: workData.company,
@@ -81,6 +82,7 @@ function App() {
   }
 
   const addEducationHistory = (e) => {
+    e.preventDefault();
     setEducationHistory([...educationHistory, 
       {
       school: educationData.school,
@@ -111,12 +113,17 @@ function App() {
 
   return (
     <>
-      <header>
-        <h1>Generate Your Own CV!</h1>
-      </header>
+      {!showResult && (
+        <header>
+          <h1>Generate Your Own CV!</h1>
+        </header>
+      )}
       <div className="cv-results">
           {showResult && (
             <>
+            <div className="edit-bar">
+              <button type="button" onClick={handleEditButton}>Edit</button>
+            </div>
             <ContactInfo firstName={formData.firstName} lastName={formData.lastName} email={formData.email} phone={formData.phone} />
               {workExperiences.map(experience => (
                 <WorkExperience company={experience.company} startDate={experience.startDate} endDate={experience.endDate} position={experience.position} description={experience.description} />
@@ -124,15 +131,13 @@ function App() {
               {educationHistory.map(item => (
                 <EducationHistory school={item.school} degree={item.degree} studyArea={item.studyArea} startDate={item.startDate} endDate={item.endDate} />
               )) }      
-            <div className="edit-bar">
-              <button type="button" onClick={handleEditButton}>Edit</button>
-            </div>
             </>
           )}
       </div>
       <section className="contact-input">
             {!showResult && (
             <form onSubmit={handleSubmit}>
+              <button type="submit">Generate Resume</button>
               <div className="input-row">
                 <label htmlFor="firstName">
                     First Name:
@@ -157,7 +162,6 @@ function App() {
                 </label>
                 <input type="tel" name="phone" id="phone" value = {formData.phone} onChange={handleInputChange} required />
               </div>
-              <button type="submit">Generate Resume</button>
             </form>
             )}
       </section>
@@ -165,7 +169,7 @@ function App() {
             {!showResult && (
               <>
             <h3>Add Work Experience</h3>
-            <form className="work-input-form">
+            <form onSubmit={addWorkExperience} className="work-input-form">
               <div className="input-row">
               <label htmlFor="workCompany">
                 Company:
@@ -194,7 +198,7 @@ function App() {
               </label>
               <input type="textarea" name="description" id="description" value = {workData.description} onChange={handleWorkChange} required />
               </div>
-                <button type="button" onClick={addWorkExperience}>Add Work Experience</button>
+                <button type="submit">Add Work Experience</button>
             </form>
             <div className="work-results">
               {workExperiences.map(experience => (
@@ -212,7 +216,7 @@ function App() {
             {!showResult && (
               <>
             <h3>Add Education History</h3>
-            <form className="education-input-form">
+            <form onSubmit={addEducationHistory} className="education-input-form">
               <div className="input-row">
               <label htmlFor="educationSchool">
                 School Name:
@@ -236,14 +240,12 @@ function App() {
                   Start Date:
                 </label>
                 <input type="date" name="edStartDate" id="edStartDate" value = {educationData.startDate} onChange={handleEdChange} required />
-              </div>
-              <div className="input-row">
                 <label htmlFor="workStartDate">
                   End Date:
                 </label>
                 <input type="date" name="edEndDate" id="edEndDate" value = {educationData.endDate} onChange={handleEdChange} required/>
               </div>
-                <button type="button" onClick={addEducationHistory}>Add Education History</button>
+                <button type="submit">Add Education History</button>
             </form>
             <div className="education-results">
               {educationHistory.map(item => (

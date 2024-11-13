@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import '../styles/WorkExperience.css'
 
 export default function WorkExperience({company,startDate,endDate,position,description,id}){
     return (
