@@ -1,8 +1,7 @@
 # CV Application Using React
 
 Use React and state hooks to generate resume with contact info, work experience, and education history.
-Need to add styling
-Could use form validation
+
 
 
 
